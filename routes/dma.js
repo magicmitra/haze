@@ -22,4 +22,21 @@ router.post( '/findDMA', (req, res) => {
     res.status(201).json({msg: `DMA code: ${dmaCode}`});
 });
 
+router.get( '/getDMA', (req, res) => {
+    if( !req.body.lat || !req.body.lng ) {
+        return res.status(400).json({ msg: "lat and lng is required" });
+    }
+    
+    let codeDMA = null;
+    const arrayOfPolygons = polygons.features;
+    for( let i = 0; i < arrayOfPolygons.length; ++i ) {
+        if ( inside( [req.body.lat, req.body.lng], arrayOfPolygons[i].geometry.coordinates[0][0]) ) {
+            codeDMA = arrayOfPolygons[i].properties.dma_code;
+            break;
+        }
+    }
+
+    res.status(201).json({msg: `DMA code: ${codeDMA}`});
+})
+
 module.exports = router;

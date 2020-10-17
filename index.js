@@ -9,7 +9,6 @@ app.use(express.urlencoded({extended: false}));
 app.use(cors());
 app.use(express.static(path.join(__dirname, "public")));
 app.use('/', dmaRouter);
+require('dotenv').config({ path: '.env' });
 
-const PORT = 5000;
-
-app.listen(PORT, () => console.log(`listening on port ${PORT}`));
+app.listen(process.env.PORT, () => console.log(`listening on port ${process.env.PORT}`));

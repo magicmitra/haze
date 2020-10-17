@@ -3,11 +3,12 @@ const polygons = require('../data/dma-polygons.json');
 const inside = require('point-in-polygon');
 
 const router = express.Router();
+require('dotenv').config({ path: '.env' });
 
 router.post( '/findDMA', (req, res) => {
     // check for missing lat and lng
     if( !req.body.lat || !req.body.lng ) {
-        return res.status(400).json({ msg: "lat and lng is required" });
+        return res.status(process.env.ERROR_400).json({ msg: "lat and lng is required" });
     }
     
     let dmaCode = null;
@@ -19,12 +20,12 @@ router.post( '/findDMA', (req, res) => {
         }
     }
 
-    res.status(201).json({msg: `DMA code: ${dmaCode}`});
+    res.status(process.env.SUCCESS_201).json({msg: `DMA code: ${dmaCode}`});
 });
 
 router.get( '/getDMA', (req, res) => {
     if( !req.body.lat || !req.body.lng ) {
-        return res.status(400).json({ msg: "lat and lng is required" });
+        return res.status(process.env.ERROR_400).json({ msg: "lat and lng is required" });
     }
     
     let codeDMA = null;
@@ -36,7 +37,7 @@ router.get( '/getDMA', (req, res) => {
         }
     }
 
-    res.status(201).json({msg: `DMA code: ${codeDMA}`});
+    res.status(process.env.SUCCESS_201).json({msg: `DMA code: ${codeDMA}`});
 })
 
 module.exports = router;
